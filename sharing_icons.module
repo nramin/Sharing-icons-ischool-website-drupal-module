@@ -1,0 +1,55 @@
+<?php
+/**
+ * Implements hook_block_info().
+ */
+function sharing_icons_block_info() {
+  $blocks['sharing_icons'] = array(
+    'info' => t('Sharing Icons'), //The name that will appear in the block list.
+    'cache' => DRUPAL_CACHE_PER_ROLE, //Default
+  );
+  $blocks['sharing_icons2'] = array(
+    'info' => t('Sharing Icons 2'), //The name that will appear in the block list.
+    'cache' => DRUPAL_CACHE_PER_ROLE, //Default
+  );
+  return $blocks;
+}
+
+/*
+ * Implements sharing_icons_block_view().
+ *
+ * Prepares the contents of the block.
+ */
+function sharing_icons_block_view($delta = '') {
+      switch($delta) {
+	case "sharing_icons":
+	  $block['content'] = theme('sharing_icons');
+	break;
+	case "sharing_icons2":
+	  $block['content'] = theme('sharing_icons2');
+	break;
+      }
+      
+    return $block;
+}
+
+// Register templates with theme layer
+function sharing_icons_theme() {
+	return array(
+		'sharing_icons' => array(
+			'template' => 'sharing_icons',
+			'variables' => '',
+			'path' => drupal_get_path('module', 'sharing_icons').'/templates',
+		),
+		'sharing_icons2' => array(
+			'template' => 'sharing_icons2',
+			'variables' => '',
+			'path' => drupal_get_path('module', 'sharing_icons').'/templates',
+		),
+	);
+}
+
+function sharing_icons_preprocess_html(&$variables){
+	$variables['extra_js'][] = '/'.drupal_get_path('module', 'sharing_icons').'/js/popup.js';
+	$variables['extra_js'][] = '/'.drupal_get_path('module', 'sharing_icons').'/js/display.js';
+	$variables['extra_css'][] = drupal_get_path('module', 'sharing_icons').'/css/style.css';	
+}
